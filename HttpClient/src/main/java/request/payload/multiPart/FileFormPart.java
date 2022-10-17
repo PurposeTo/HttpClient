@@ -33,7 +33,7 @@ public class FileFormPart extends AbstractFormPart<File> {
                         @NonNull File content,
                         @NonNull ContentType contentType) {
         super(name, content, contentType);
-        this.fileName = StringUtils.isNullOrEmpty(fileName)
+        this.fileName = StringUtils.isBlank(fileName)
                 ? content.getName()
                 : fileName;
 

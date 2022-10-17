@@ -36,7 +36,7 @@ public class Header implements NameValuePair<String, String>, Copyable<Header> {
     }
 
     public Header setValuesSeparator(String separator) {
-        StringUtils.requiredNonNullOrEmpty(separator);
+        StringUtils.requiredNonBlank(separator);
         final String value = getValue();
         this.valuesSeparator = separator;
         setValue(value);
@@ -92,13 +92,13 @@ public class Header implements NameValuePair<String, String>, Copyable<Header> {
     }
 
     public Header setValue(String value) {
-        StringUtils.requiredNonNullOrEmpty(value);
+        StringUtils.requiredNonBlank(value);
         return this.clear()
                 .addValue(value);
     }
 
     public Header addValue(String value) {
-        if (StringUtils.isNullOrEmpty(value)) {
+        if (StringUtils.isBlank(value)) {
             return this;
         }
 

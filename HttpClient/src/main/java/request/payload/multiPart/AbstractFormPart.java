@@ -7,8 +7,6 @@ import lombok.NonNull;
 import utils.ContentType;
 import utils.StringUtils;
 
-import java.io.File;
-
 import static headers.HeadersEnum.CONTENT_DISPOSITION;
 
 @Getter
@@ -29,7 +27,7 @@ public abstract class AbstractFormPart<T> implements FormPart {
     }
 
     protected AbstractFormPart(@NonNull String name, @NonNull T content, @NonNull ContentType contentType) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         this.name = name;
         this.contentType = contentType;
         this.content = content;

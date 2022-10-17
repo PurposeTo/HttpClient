@@ -20,7 +20,6 @@ public class HttpGetTest extends AbstractHttpClientTest {
                 .buildToRequest();
 
         httpClient.send(request)
-                .validate(Conditions.statusCode(200));
-
+                .shouldBe(Conditions.statusCode(200));
     }
 }

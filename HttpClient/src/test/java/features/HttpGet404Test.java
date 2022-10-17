@@ -23,7 +23,7 @@ public class HttpGet404Test extends AbstractHttpClientTest {
                 .buildToRequest();
 
         httpClient.send(request)
-                .validate(Conditions.statusCode(404));
+                .shouldBe(Conditions.statusCode(404));
 
     }
 }

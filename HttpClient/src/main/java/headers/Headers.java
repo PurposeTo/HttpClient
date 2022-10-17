@@ -35,7 +35,7 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Найти заголовки с указанным именем
      */
     public List<Header> find(String name) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         return headersList.stream()
                 .filter(header -> header.getName().equals(name))
                 .collect(Collectors.toList());
@@ -46,7 +46,7 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Если несколько заголовков с указанными именами, они будут объеденены в один.
      */
     public Header findMerged(String name) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         List<Header> headers = find(name);
         return Header.merge(headers);
     }
@@ -59,7 +59,7 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Проверить существование заголовка с указанным именем
      */
     public boolean contains(String name) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         return !find(name).isEmpty();
     }
 
@@ -67,7 +67,7 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Удалить все заголовки с указанным именем
      */
     public Headers remove(String name) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         List<Header> headers = find(name);
         headers.forEach(headersList::remove);
         return this;
@@ -112,7 +112,7 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Удалить заголовок с указанным именем и установить новый заголовок, с указанным значением.
      */
     public Headers set(String name, @NonNull String value) {
-        StringUtils.requiredNonNullOrEmpty(name);
+        StringUtils.requiredNonBlank(name);
         remove(name);
         add(name, value);
         return this;

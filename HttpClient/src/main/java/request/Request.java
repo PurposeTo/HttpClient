@@ -2,7 +2,6 @@ package request;
 
 
 import headers.Headers;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import request.payload.ReqPayload;
@@ -58,7 +57,7 @@ public class Request implements Copyable<Request> {
         String headersStr = headers.isEmpty()
                 ? ""
                 : "\n" + headers.toString();
-        String bodyStr = body == null || StringUtils.isNullOrEmpty(body.toString())
+        String bodyStr = body == null || StringUtils.isBlank(body.toString())
                 ? ""
                 : "\n\n" + body;
 

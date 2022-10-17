@@ -23,7 +23,7 @@ public class HttpDeleteTest extends AbstractHttpClientTest {
                 .setBody(new StringReqPayload(getUser()));
 
         httpClient.send(request)
-                .validate(Conditions.statusCode(204));
+                .shouldBe(Conditions.statusCode(204));
     }
 
     private static String getUser() {

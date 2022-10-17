@@ -4,26 +4,28 @@ import exceptions.HttpResponseException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import response.Response;
+import utils.objectStream.Condition;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
-public class Condition {
+public class HttpResponseCondition implements Condition<Response> {
     private final Predicate<Response> predicate;
     private final Function<Response, String> errorReasonGetter;
 
-    public void validate(@NonNull Response response) {
-        boolean success = test(response);
+    @Override
+    public void testOrThrow(Response value) {
+        boolean success = test(value);
         if (success) {
             return;
         }
 
-        String errorReason = errorReasonGetter.apply(response);
-        throw new HttpResponseException(response, errorReason);
+        String errorReason = errorReasonGetter.apply(value);
+        throw new HttpResponseException(value, errorReason);
     }
 
-    public boolean test(@NonNull Response response) {
-        return predicate.test(response);
+    public boolean test(@NonNull Response value) {
+        return predicate.test(value);
     }
 }

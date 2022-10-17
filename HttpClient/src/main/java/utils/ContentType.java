@@ -59,7 +59,7 @@ public class ContentType implements Copyable<ContentType> {
      * @return content type
      */
     public static ContentType create(final String mimeType, final Charset charset) {
-        final String normalizedMimeType = StringUtils.requiredNonNullOrEmpty(mimeType).toLowerCase(Locale.ROOT);
+        final String normalizedMimeType = StringUtils.requiredNonBlank(mimeType).toLowerCase(Locale.ROOT);
         if (!valid(normalizedMimeType)) {
             throw new IllegalArgumentException("MIME type may not contain reserved characters");
         }
@@ -89,7 +89,7 @@ public class ContentType implements Copyable<ContentType> {
      *                                     this instance of the Java virtual machine
      */
     public static ContentType create(final String mimeType, final String charset) throws UnsupportedCharsetException {
-        return create(mimeType, StringUtils.isNonNullOrEmpty(charset) ? Charset.forName(charset) : null);
+        return create(mimeType, StringUtils.isNonBlank(charset) ? Charset.forName(charset) : null);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ContentType implements Copyable<ContentType> {
      *                                     this instance of the Java virtual machine
      */
     public static ContentType parse(final String str) throws UnsupportedCharsetException {
-        StringUtils.requiredNonNullOrEmpty(str);
+        StringUtils.requiredNonBlank(str);
         String[] split = str.split(CHARSET_ANNOUNCMENT);
         String mime = split[0];
         Charset charset = null;

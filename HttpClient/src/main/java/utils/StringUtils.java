@@ -14,7 +14,7 @@ public class StringUtils {
     public static String DEFAULT_REPLACEMENT_RX = "\\$\\{([\\w\\s]+)}";
 
     public static boolean containsPattern(@NonNull String source, String rx) {
-        requiredNonNullOrEmpty(rx);
+        requiredNonBlank(rx);
 
         Pattern p = Pattern.compile(rx);
         Matcher m = p.matcher(source);
@@ -28,7 +28,7 @@ public class StringUtils {
     public static String parametrize(@NonNull String regexPattern,
                                      @NonNull String source,
                                      @NonNull Map<String, String> replacements) {
-        requiredNonNullOrEmpty(regexPattern);
+        requiredNonBlank(regexPattern);
 
         StringBuilder sb = new StringBuilder(); //use StringBuffer before Java 9
         Pattern p = Pattern.compile(regexPattern);
@@ -47,16 +47,16 @@ public class StringUtils {
         return sb.toString();
     }
 
-    public static boolean isNullOrEmpty(String str) {
+    public static boolean isBlank(String str) {
         return Objects.isNull(str) || str.trim().equals("");
     }
 
-    public static boolean isNonNullOrEmpty(String str) {
-        return !isNullOrEmpty(str);
+    public static boolean isNonBlank(String str) {
+        return !isBlank(str);
     }
 
-    public static String requiredNonNullOrEmpty(String str) {
-        if (isNullOrEmpty(str)) {
+    public static String requiredNonBlank(String str) {
+        if (isBlank(str)) {
             throw new NullPointerException();
         }
 
@@ -67,7 +67,7 @@ public class StringUtils {
      * Разделить каждый элемент коллекции по valuesSeparator, если требуется
      */
     public static List<String> slit(@NonNull List<String> values, String valuesSeparator) {
-        requiredNonNullOrEmpty(valuesSeparator);
+        requiredNonBlank(valuesSeparator);
         if (values.isEmpty()) {
             return values;
         }

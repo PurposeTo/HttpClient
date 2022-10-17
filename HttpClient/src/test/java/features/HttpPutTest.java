@@ -23,7 +23,7 @@ public class HttpPutTest extends AbstractHttpClientTest {
                 .setBody(new StringReqPayload(getUser()));
 
         httpClient.send(request)
-                .validate(Conditions.statusCode(200));
+                .shouldBe(Conditions.statusCode(200));
     }
 
     private static String getUser() {

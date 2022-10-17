@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 
 public class Conditions {
 
-    public static Condition statusCode(int expectedStatusCode) {
+    public static HttpResponseCondition statusCode(int expectedStatusCode) {
         return statusCode(HttpStatusCode.getByValue(expectedStatusCode));
     }
 
-    public static Condition statusCode(@NonNull HttpStatusCode expectedStatusCode) {
-        return new Condition(
+    public static HttpResponseCondition statusCode(@NonNull HttpStatusCode expectedStatusCode) {
+        return new HttpResponseCondition(
                 r -> {
                     int actualCode = r.getStatusCode().getValue();
                     return expectedStatusCode.getValue() == actualCode;
@@ -27,8 +27,8 @@ public class Conditions {
         );
     }
 
-    public static Condition body(@NonNull Predicate<String> bodyPredicate) {
-        return new Condition(
+    public static HttpResponseCondition body(@NonNull Predicate<String> bodyPredicate) {
+        return new HttpResponseCondition(
                 d -> {
                     String body = d.getBody();
                     return bodyPredicate.test(body);
@@ -37,28 +37,28 @@ public class Conditions {
         );
     }
 
-    public static Condition and(@NonNull String log,
-                                @NonNull Condition first,
-                                @NonNull Condition second,
-                                Condition... others) {
-        List<Condition> conditions = Arrays.asList(first, second);
-        conditions.addAll(Arrays.stream(others).collect(Collectors.toList()));
+    public static HttpResponseCondition and(@NonNull String log,
+                                            @NonNull HttpResponseCondition first,
+                                            @NonNull HttpResponseCondition second,
+                                            HttpResponseCondition... others) {
+        List<HttpResponseCondition> httpResponseConditions = Arrays.asList(first, second);
+        httpResponseConditions.addAll(Arrays.stream(others).collect(Collectors.toList()));
 
-        return new Condition(
-                d -> conditions.stream().allMatch(condition -> condition.test(d)),
+        return new HttpResponseCondition(
+                d -> httpResponseConditions.stream().allMatch(httpResponseCondition -> httpResponseCondition.test(d)),
                 d -> log
         );
     }
 
-    public static Condition or(@NonNull String log,
-                               @NonNull Condition first,
-                               @NonNull Condition second,
-                               Condition... others) {
-        List<Condition> conditions = Arrays.asList(first, second);
-        conditions.addAll(Arrays.stream(others).collect(Collectors.toList()));
+    public static HttpResponseCondition or(@NonNull String log,
+                                           @NonNull HttpResponseCondition first,
+                                           @NonNull HttpResponseCondition second,
+                                           HttpResponseCondition... others) {
+        List<HttpResponseCondition> httpResponseConditions = Arrays.asList(first, second);
+        httpResponseConditions.addAll(Arrays.stream(others).collect(Collectors.toList()));
 
-        return new Condition(
-                d -> conditions.stream().anyMatch(condition -> condition.test(d)),
+        return new HttpResponseCondition(
+                d -> httpResponseConditions.stream().anyMatch(httpResponseCondition -> httpResponseCondition.test(d)),
                 d -> log
         );
     }

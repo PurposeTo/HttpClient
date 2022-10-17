@@ -6,13 +6,10 @@ import request.Request;
 import response.HttpStatusCode;
 import response.HttpVersion;
 import response.Response;
-import response.validator.conditions.Condition;
-import utils.Retryer;
-import utils.formatter.Formatter;
-import utils.formatter.FormatterImpl;
+import utils.objectStream.Condition;
+import utils.objectStream.ObjectStream;
+import utils.objectStream.ObjectStreamImpl;
 
-import java.time.Duration;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 public class ResponseHandlerImpl implements ResponseHandler {
@@ -21,21 +18,14 @@ public class ResponseHandlerImpl implements ResponseHandler {
 
     private final Response response;
 
-    private final Formatter<Response> formatter;
-
     public ResponseHandlerImpl(@NonNull HttpClient httpClient,
                                @NonNull Request request,
                                @NonNull Response response) {
         this.httpClient = httpClient;
         this.request = request;
         this.response = response;
-        formatter = new FormatterImpl<>(this.response);
     }
 
-    public ResponseHandler validate(Condition condition) {
-        condition.validate(response);
-        return this;
-    }
 
     @Override
     public HttpVersion getVersion() {
@@ -62,34 +52,40 @@ public class ResponseHandlerImpl implements ResponseHandler {
     }
 
     @Override
-    public <R> Formatter<R> format(@NonNull Function<Response, R> func) {
-        return formatter.format(func);
-    }
-
-    @Override
-    public <R> R formatAndGet(@NonNull Function<Response, R> func) {
-        return formatter.formatAndGet(func);
-    }
-
-    @Override
     public Response get() {
         return response;
     }
 
     @Override
-    public ResponseHandler retryUntil(Condition condition, Duration delay, Duration timeout) {
-        AtomicReference<Response> ar = new AtomicReference<>(response);
-
-        new Retryer<Response>(
-                () -> httpClient.send(request),
-                condition::test,
-                delay,
-                timeout)
-                .initData(response)
-                .handleData(ar::set)
-                .run();
-
-        validate(condition);
-        return new ResponseHandlerImpl(httpClient, request, ar.get());
+    public <R> ObjectStream<R> map(@NonNull Function<Response, R> func) {
+        return new ObjectStreamImpl<>(func.apply(response));
     }
+
+    @Override
+    public <R> R mapAndGet(@NonNull Function<Response, R> func) {
+        return map(func).get();
+    }
+
+    @Override
+    public ObjectStream<Response> shouldBe(@NonNull Condition<Response> condition) {
+        condition.testOrThrow(response);
+        return this;
+    }
+
+// todo   @Override
+//    public ResponseHandler retryUntil(Condition condition, Duration delay, Duration timeout) {
+//        AtomicReference<Response> ar = new AtomicReference<>(response);
+//
+//        new Retryer<Response>(
+//                () -> httpClient.send(request),
+//                condition::test,
+//                delay,
+//                timeout)
+//                .initData(response)
+//                .handleData(ar::set)
+//                .run();
+//
+//        validate(condition);
+//        return new ResponseHandlerImpl(httpClient, request, ar.get());
+//    }
 }

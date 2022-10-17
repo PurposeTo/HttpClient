@@ -20,7 +20,6 @@ public class HttpPost400Test extends AbstractHttpClientTest {
                 .buildToRequest();
 
         httpClient.send(request)
-                .validate(Conditions.statusCode(400));
-
+                .shouldBe(Conditions.statusCode(400));
     }
 }

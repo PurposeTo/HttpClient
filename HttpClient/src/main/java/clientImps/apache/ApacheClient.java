@@ -93,7 +93,7 @@ public class ApacheClient extends AbstractHttpClient {
         if (!headers.isEmpty()) {
             response = response.setHeaders(new Headers(headers));
         }
-        if (StringUtils.isNonNullOrEmpty(body)) {
+        if (StringUtils.isNonBlank(body)) {
             response = response.setBody(body);
         }
 

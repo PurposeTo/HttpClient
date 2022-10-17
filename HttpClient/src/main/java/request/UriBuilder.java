@@ -45,7 +45,7 @@ public class UriBuilder {
     }
 
     public UriBuilder setReplacementRx(String replacementRx) {
-        if (StringUtils.isNonNullOrEmpty(replacementRx)) {
+        if (StringUtils.isNonBlank(replacementRx)) {
             this.replacementRx = replacementRx;
         }
 
@@ -80,13 +80,13 @@ public class UriBuilder {
     }
 
     private String getParametrizedPath() {
-        if (StringUtils.isNullOrEmpty(path)) {
+        if (StringUtils.isBlank(path)) {
             return path;
         }
 
         String parametrizedPath = StringUtils.parametrize(replacementRx, path, pathParams);
         // Если путь не начинается со слеша, то добавить слеш
-        if (StringUtils.isNonNullOrEmpty(parametrizedPath) && !(parametrizedPath.startsWith("/"))) {
+        if (StringUtils.isNonBlank(parametrizedPath) && !(parametrizedPath.startsWith("/"))) {
             parametrizedPath = "/" + parametrizedPath;
         }
 

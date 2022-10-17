@@ -40,7 +40,7 @@ public class ResponseImpl implements Response {
         String headersStr = headers.isEmpty()
                 ? ""
                 : "\n" + headers.toString();
-        String bodyStr = body == null || StringUtils.isNullOrEmpty(body)
+        String bodyStr = body == null || StringUtils.isBlank(body)
                 ? ""
                 : "\n\n" + body;
 

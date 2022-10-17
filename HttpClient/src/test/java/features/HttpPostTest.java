@@ -5,14 +5,12 @@ import request.HttpMethod;
 import request.Request;
 import request.RequestLineBuilder;
 import request.payload.StringReqPayload;
-import response.HttpStatusCode;
 import response.validator.conditions.Conditions;
 import utils.URIScheme;
-import utils.formatter.FormatterImpl;
 
 import java.time.Duration;
 
-import static utils.formatter.Formatters.*;
+import static utils.objectStream.Mappers.*;
 
 public class HttpPostTest extends AbstractHttpClientTest {
 
@@ -28,10 +26,10 @@ public class HttpPostTest extends AbstractHttpClientTest {
                 .setBody(new StringReqPayload(getUser()));
 
         var data = httpClient.send(request)
-                .retryUntil(Conditions.statusCode(201), Duration.ofSeconds(3), Duration.ofSeconds(10))
-                .validate(Conditions.statusCode(201))
-                .format(asString())
-                .format(toJsonObject())
+//    todo            .retryUntil(Conditions.statusCode(201), Duration.ofSeconds(3), Duration.ofSeconds(10))
+                .shouldBe(Conditions.statusCode(201))
+                .map(asString())
+                .map(toJsonObject())
                 .get();
     }
 
