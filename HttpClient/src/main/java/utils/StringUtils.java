@@ -94,4 +94,9 @@ public class StringUtils {
                 .map(e -> e.getKey() + ": " + e.getValue())
                 .collect(Collectors.joining("\n"));
     }
+
+    public static String[] splitAllChars(String str) {
+        requiredNonBlank(str);
+        return str.split("(?!^)");
+    }
 }
