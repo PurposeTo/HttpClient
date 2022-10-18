@@ -1,6 +1,7 @@
 package utils;
 
 import lombok.NonNull;
+import javax.validation.constraints.NotBlank;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +14,7 @@ import java.util.stream.Collectors;
 public class StringUtils {
     public static String DEFAULT_REPLACEMENT_RX = "\\$\\{([\\w\\s]+)}";
 
-    public static boolean containsPattern(@NonNull String source, String rx) {
-        requiredNonBlank(rx);
-
+    public static boolean containsPattern(@NonNull String source, @NotBlank String rx) {
         Pattern p = Pattern.compile(rx);
         Matcher m = p.matcher(source);
         return m.find();
@@ -25,11 +24,9 @@ public class StringUtils {
         return parametrize(DEFAULT_REPLACEMENT_RX, source, replacements);
     }
 
-    public static String parametrize(@NonNull String regexPattern,
+    public static String parametrize(@NotBlank String regexPattern,
                                      @NonNull String source,
                                      @NonNull Map<String, String> replacements) {
-        requiredNonBlank(regexPattern);
-
         StringBuilder sb = new StringBuilder(); //use StringBuffer before Java 9
         Pattern p = Pattern.compile(regexPattern);
         Matcher m = p.matcher(source);
@@ -95,8 +92,7 @@ public class StringUtils {
                 .collect(Collectors.joining("\n"));
     }
 
-    public static String[] splitAllChars(String str) {
-        requiredNonBlank(str);
+    public static String[] splitAllChars(@NotBlank String str) {
         return str.split("(?!^)");
     }
 }

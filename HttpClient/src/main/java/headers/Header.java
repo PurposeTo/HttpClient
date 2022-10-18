@@ -5,6 +5,7 @@ import lombok.NonNull;
 import utils.Copyable;
 import utils.NameValuePair;
 import utils.StringUtils;
+import javax.validation.constraints.NotBlank;
 
 import java.util.*;
 
@@ -35,8 +36,7 @@ public class Header implements NameValuePair<String, String>, Copyable<Header> {
         addValues(values);
     }
 
-    public Header setValuesSeparator(String separator) {
-        StringUtils.requiredNonBlank(separator);
+    public Header setValuesSeparator(@NonNull String separator) {
         final String value = getValue();
         this.valuesSeparator = separator;
         setValue(value);
@@ -91,8 +91,7 @@ public class Header implements NameValuePair<String, String>, Copyable<Header> {
         return this;
     }
 
-    public Header setValue(String value) {
-        StringUtils.requiredNonBlank(value);
+    public Header setValue(@NotBlank String value) {
         return this.clear()
                 .addValue(value);
     }
