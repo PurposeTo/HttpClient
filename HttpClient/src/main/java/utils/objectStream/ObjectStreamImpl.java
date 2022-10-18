@@ -1,10 +1,8 @@
 package utils.objectStream;
 
 import lombok.NonNull;
-import utils.retryer.stopStrategy.Strategy;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ObjectStreamImpl<T> implements ObjectStream<T> {
     private final T data;

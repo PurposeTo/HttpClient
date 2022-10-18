@@ -20,10 +20,10 @@ public abstract class AbstractHttpClient implements HttpClient {
     @Override
     public final ResponseHandler send(Request request) {
         Response response = sendHttp(request);
-        return createResponseHandler(request, response);
+        return createResponseHandler(response);
     }
 
-    private ResponseHandler createResponseHandler(@NonNull Request request, @NonNull Response response) {
-        return new ResponseHandlerImpl(this, request, response);
+    private ResponseHandler createResponseHandler(@NonNull Response response) {
+        return new ResponseHandlerImpl(response);
     }
 }

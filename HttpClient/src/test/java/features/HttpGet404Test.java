@@ -6,8 +6,12 @@ import request.Request;
 import request.RequestLineBuilder;
 import response.validator.conditions.Conditions;
 import utils.URIScheme;
+import utils.objectStream.EmptyObjectStream;
+import utils.retryer.strategy.Timeout;
 
 import java.time.Duration;
+
+import static utils.objectStream.Mappers.asString;
 
 public class HttpGet404Test extends AbstractHttpClientTest {
 
@@ -21,9 +25,12 @@ public class HttpGet404Test extends AbstractHttpClientTest {
                 .setPath("api/users/${id}")
                 .addPathParams("id", "23")
                 .buildToRequest();
-
-        httpClient.send(request)
-                .shouldBe(Conditions.statusCode(404));
-
+        EmptyObjectStream.retryUntil(
+                        () -> httpClient.send(request),
+                        Conditions.statusCode(404),
+                        Duration.ofSeconds(3),
+                        new Timeout(Duration.ofSeconds(10)))
+                .shouldBe(Conditions.statusCode(404))
+                .map(asString());
     }
 }

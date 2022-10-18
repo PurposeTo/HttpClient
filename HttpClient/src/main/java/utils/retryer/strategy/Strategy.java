@@ -1,4 +1,4 @@
-package utils.retryer.stopStrategy;
+package utils.retryer.strategy;
 
 public interface Strategy {
     void onStart();
@@ -6,4 +6,6 @@ public interface Strategy {
     boolean needRetry();
 
     void onLoop();
+
+    void onFinish(boolean success);
 }

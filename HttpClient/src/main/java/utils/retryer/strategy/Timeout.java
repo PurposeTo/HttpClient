@@ -1,4 +1,4 @@
-package utils.retryer.stopStrategy;
+package utils.retryer.strategy;
 
 import lombok.NonNull;
 
@@ -11,11 +11,9 @@ public class Timeout implements Strategy {
 
     private LocalDateTime deadline;
 
-    //todo разбить на 3 класса: ValidData, Timeout, Delay, And
     public Timeout(@NonNull Duration timeout) {
         this.timeout = timeout;
     }
-
 
     @Override
     public void onStart() {
@@ -30,5 +28,10 @@ public class Timeout implements Strategy {
 
     @Override
     public void onLoop() {
+    }
+
+    @Override
+    public void onFinish(boolean success) {
+
     }
 }

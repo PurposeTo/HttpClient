@@ -1,4 +1,4 @@
-package utils.retryer.stopStrategy;
+package utils.retryer.strategy;
 
 import lombok.NonNull;
 
@@ -52,6 +52,7 @@ public class ValidData<T> implements Strategy {
         data = getActualData();
     }
 
+    @Override
     public void onFinish(boolean success) {
         if (success) {
             resultDataEvent.accept(data);

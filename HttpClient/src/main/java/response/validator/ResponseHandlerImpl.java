@@ -13,16 +13,10 @@ import utils.objectStream.ObjectStreamImpl;
 import java.util.function.Function;
 
 public class ResponseHandlerImpl implements ResponseHandler {
-    private final HttpClient httpClient;
-    private final Request request;
 
     private final Response response;
 
-    public ResponseHandlerImpl(@NonNull HttpClient httpClient,
-                               @NonNull Request request,
-                               @NonNull Response response) {
-        this.httpClient = httpClient;
-        this.request = request;
+    public ResponseHandlerImpl(@NonNull Response response) {
         this.response = response;
     }
 
@@ -71,21 +65,4 @@ public class ResponseHandlerImpl implements ResponseHandler {
         condition.testOrThrow(response);
         return this;
     }
-
-// todo   @Override
-//    public ResponseHandler retryUntil(Condition condition, Duration delay, Duration timeout) {
-//        AtomicReference<Response> ar = new AtomicReference<>(response);
-//
-//        new Retryer<Response>(
-//                () -> httpClient.send(request),
-//                condition::test,
-//                delay,
-//                timeout)
-//                .initData(response)
-//                .handleData(ar::set)
-//                .run();
-//
-//        validate(condition);
-//        return new ResponseHandlerImpl(httpClient, request, ar.get());
-//    }
 }

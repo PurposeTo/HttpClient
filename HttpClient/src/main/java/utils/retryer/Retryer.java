@@ -2,7 +2,7 @@ package utils.retryer;
 
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import utils.retryer.stopStrategy.Strategy;
+import utils.retryer.strategy.Strategy;
 
 import java.time.Duration;
 import java.util.function.Consumer;
@@ -44,11 +44,13 @@ public class Retryer {
      * Соответствуют данные условиям
      */
     private boolean needRetry() {
-        success = strategy.needRetry();
-        return success;
+        boolean needRetry = strategy.needRetry();
+        success = !needRetry;
+        return needRetry;
     }
 
     private void onFinish(boolean success) {
+        strategy.onFinish(success);
         resultEvent.accept(success);
     }
 

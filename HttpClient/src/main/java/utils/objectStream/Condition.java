@@ -3,8 +3,8 @@ package utils.objectStream;
 import lombok.NonNull;
 import response.Response;
 
-public interface Condition<T> {
-    void testOrThrow(T value);
+import java.util.function.Predicate;
 
-    boolean test(T value);
+public interface Condition<T> extends Predicate<T> {
+    void testOrThrow(T value);
 }
