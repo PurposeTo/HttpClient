@@ -6,12 +6,12 @@ import request.Request;
 import request.RequestLineBuilder;
 import response.validator.conditions.Conditions;
 import utils.URIScheme;
-import utils.objectStream.EmptyObjectStream;
+import utils.conform.EmptyConform;
 import utils.retryer.strategy.Timeout;
 
 import java.time.Duration;
 
-import static utils.objectStream.Mappers.asString;
+import static utils.conform.Mappers.asString;
 
 public class HttpGet404Test extends AbstractHttpClientTest {
 
@@ -25,7 +25,7 @@ public class HttpGet404Test extends AbstractHttpClientTest {
                 .setPath("api/users/${id}")
                 .addPathParams("id", "23")
                 .buildToRequest();
-        EmptyObjectStream.retryUntil(
+        EmptyConform.retryUntil(
                         () -> httpClient.send(request),
                         Conditions.statusCode(404),
                         Duration.ofSeconds(3),

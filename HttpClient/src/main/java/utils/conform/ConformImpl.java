@@ -1,13 +1,13 @@
-package utils.objectStream;
+package utils.conform;
 
 import lombok.NonNull;
 
 import java.util.function.Function;
 
-public class ObjectStreamImpl<T> implements ObjectStream<T> {
+public class ConformImpl<T> implements Conform<T> {
     private final T data;
 
-    public ObjectStreamImpl(T data) {
+    public ConformImpl(T data) {
         this.data = data;
     }
 
@@ -17,9 +17,9 @@ public class ObjectStreamImpl<T> implements ObjectStream<T> {
     }
 
     @Override
-    public <R> ObjectStream<R> map(@NonNull Function<T, R> func) {
+    public <R> Conform<R> map(@NonNull Function<T, R> func) {
         R newData = func.apply(data);
-        return new ObjectStreamImpl<R>(newData);
+        return new ConformImpl<R>(newData);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ObjectStreamImpl<T> implements ObjectStream<T> {
     }
 
     @Override
-    public ObjectStream<T> shouldBe(Condition<T> condition) {
+    public Conform<T> shouldBe(Condition<T> condition) {
         condition.testOrThrow(data);
         return this;
     }

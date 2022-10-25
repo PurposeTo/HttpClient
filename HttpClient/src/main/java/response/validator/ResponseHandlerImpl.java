@@ -1,14 +1,12 @@
 package response.validator;
 
-import client.HttpClient;
 import lombok.NonNull;
-import request.Request;
 import response.HttpStatusCode;
 import response.HttpVersion;
 import response.Response;
-import utils.objectStream.Condition;
-import utils.objectStream.ObjectStream;
-import utils.objectStream.ObjectStreamImpl;
+import utils.conform.Condition;
+import utils.conform.Conform;
+import utils.conform.ConformImpl;
 
 import java.util.function.Function;
 
@@ -51,8 +49,8 @@ public class ResponseHandlerImpl implements ResponseHandler {
     }
 
     @Override
-    public <R> ObjectStream<R> map(@NonNull Function<Response, R> func) {
-        return new ObjectStreamImpl<>(func.apply(response));
+    public <R> Conform<R> map(@NonNull Function<Response, R> func) {
+        return new ConformImpl<>(func.apply(response));
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ResponseHandlerImpl implements ResponseHandler {
     }
 
     @Override
-    public ObjectStream<Response> shouldBe(@NonNull Condition<Response> condition) {
+    public Conform<Response> shouldBe(@NonNull Condition<Response> condition) {
         condition.testOrThrow(response);
         return this;
     }

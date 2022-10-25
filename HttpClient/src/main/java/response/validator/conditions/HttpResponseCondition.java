@@ -4,7 +4,7 @@ import exceptions.HttpResponseException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import response.Response;
-import utils.objectStream.Condition;
+import utils.conform.Condition;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

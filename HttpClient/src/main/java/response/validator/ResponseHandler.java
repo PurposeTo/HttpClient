@@ -1,8 +1,8 @@
 package response.validator;
 
 import response.Response;
-import utils.objectStream.ObjectStream;
+import utils.conform.Conform;
 
-public interface ResponseHandler extends Response, ObjectStream<Response> {
+public interface ResponseHandler extends Response, Conform<Response> {
 
 }

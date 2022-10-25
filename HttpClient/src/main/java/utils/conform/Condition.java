@@ -1,8 +1,6 @@
-package utils.objectStream;
+package utils.conform;
 
-import lombok.NonNull;
 import lombok.SneakyThrows;
-import response.Response;
 
 import java.util.function.Predicate;
 

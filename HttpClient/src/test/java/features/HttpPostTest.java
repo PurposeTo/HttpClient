@@ -8,9 +8,7 @@ import request.payload.StringReqPayload;
 import response.validator.conditions.Conditions;
 import utils.URIScheme;
 
-import java.time.Duration;
-
-import static utils.objectStream.Mappers.*;
+import static utils.conform.Mappers.*;
 
 public class HttpPostTest extends AbstractHttpClientTest {
 
