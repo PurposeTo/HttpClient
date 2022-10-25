@@ -15,14 +15,9 @@ public class HttpResponseCondition implements Condition<Response> {
     private final Function<Response, String> errorReasonGetter;
 
     @Override
-    public void testOrThrow(Response value) {
-        boolean success = test(value);
-        if (success) {
-            return;
-        }
-
+    public HttpResponseException throwable(Response value) {
         String errorReason = errorReasonGetter.apply(value);
-        throw new HttpResponseException(value, errorReason);
+        return new HttpResponseException(value, errorReason);
     }
 
     public boolean test(@NonNull Response value) {
