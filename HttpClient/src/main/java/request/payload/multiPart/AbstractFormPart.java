@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import utils.ContentType;
 import utils.StringUtils;
-import javax.validation.constraints.NotBlank;
 
 import static headers.HeadersEnum.CONTENT_DISPOSITION;
 
@@ -27,7 +26,8 @@ public abstract class AbstractFormPart<T> implements FormPart {
         this(name, content, ContentType.parse(contentType));
     }
 
-    protected AbstractFormPart(@NotBlank String name, @NonNull T content, @NonNull ContentType contentType) {
+    protected AbstractFormPart(@NonNull String name, @NonNull T content, @NonNull ContentType contentType) {
+        StringUtils.requiredNonBlank(name);
         this.name = name;
         this.contentType = contentType;
         this.content = content;

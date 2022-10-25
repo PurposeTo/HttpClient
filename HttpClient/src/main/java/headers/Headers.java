@@ -3,7 +3,6 @@ package headers;
 import lombok.NonNull;
 import utils.Copyable;
 import utils.StringUtils;
-import javax.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,7 +34,8 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
     /**
      * Найти заголовки с указанным именем
      */
-    public List<Header> find(@NotBlank String name) {
+    public List<Header> find(String name) {
+        StringUtils.requiredNonBlank(name);
         return headersList.stream()
                 .filter(header -> header.getName().equals(name))
                 .collect(Collectors.toList());
@@ -45,7 +45,8 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
      * Найти заголовок с указанным именем.
      * Если несколько заголовков с указанными именами, они будут объеденены в один.
      */
-    public Header findMerged(@NotBlank String name) {
+    public Header findMerged(String name) {
+        StringUtils.requiredNonBlank(name);
         List<Header> headers = find(name);
         return Header.merge(headers);
     }
@@ -57,14 +58,16 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
     /**
      * Проверить существование заголовка с указанным именем
      */
-    public boolean contains(@NotBlank String name) {
+    public boolean contains(String name) {
+        StringUtils.requiredNonBlank(name);
         return !find(name).isEmpty();
     }
 
     /**
      * Удалить все заголовки с указанным именем
      */
-    public Headers remove(@NotBlank String name) {
+    public Headers remove(String name) {
+        StringUtils.requiredNonBlank(name);
         List<Header> headers = find(name);
         headers.forEach(headersList::remove);
         return this;
@@ -108,7 +111,8 @@ public class Headers implements Copyable<Headers>, Iterable<Header> {
     /**
      * Удалить заголовок с указанным именем и установить новый заголовок, с указанным значением.
      */
-    public Headers set(@NotBlank String name, @NonNull String value) {
+    public Headers set(String name, @NonNull String value) {
+        StringUtils.requiredNonBlank(name);
         remove(name);
         add(name, value);
         return this;

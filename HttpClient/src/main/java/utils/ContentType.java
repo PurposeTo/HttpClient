@@ -3,7 +3,6 @@ package utils;
 
 import lombok.Getter;
 import org.apache.hc.core5.util.CharArrayBuffer;
-import javax.validation.constraints.NotBlank;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -59,8 +58,8 @@ public class ContentType implements Copyable<ContentType> {
      * @param charset  charset.
      * @return content type
      */
-    public static ContentType create(@NotBlank final String mimeType, final Charset charset) {
-        final String normalizedMimeType = mimeType.toLowerCase(Locale.ROOT);
+    public static ContentType create(final String mimeType, final Charset charset) {
+        final String normalizedMimeType = StringUtils.requiredNonBlank(mimeType).toLowerCase(Locale.ROOT);
         if (!valid(normalizedMimeType)) {
             throw new IllegalArgumentException("MIME type may not contain reserved characters");
         }
@@ -99,7 +98,8 @@ public class ContentType implements Copyable<ContentType> {
      * @throws UnsupportedCharsetException Thrown when the named charset is not available in
      *                                     this instance of the Java virtual machine
      */
-    public static ContentType parse(@NotBlank final String str) throws UnsupportedCharsetException {
+    public static ContentType parse(final String str) throws UnsupportedCharsetException {
+        StringUtils.requiredNonBlank(str);
         String[] split = str.split(CHARSET_ANNOUNCMENT);
         String mime = split[0];
         Charset charset = null;
