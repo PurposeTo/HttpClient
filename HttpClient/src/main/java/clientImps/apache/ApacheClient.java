@@ -79,7 +79,8 @@ public class ApacheClient extends AbstractHttpClient {
     private Response formApacheRes(CloseableHttpResponse apacheResponse) {
         // Изъять из апач ответа
         HttpStatusCode statusCode = HttpStatusCode.getByValue(apacheResponse.getCode());
-        HttpVersion version = HttpVersion.getByString(apacheResponse.getVersion().toString());
+        var apacheProtocol = apacheResponse.getVersion();
+        ProtocolVersion version = new ProtocolVersion(apacheProtocol.getProtocol(), apacheProtocol.getMajor(), apacheProtocol.getMinor());
         List<Header> headers = Arrays.stream(apacheResponse.getHeaders())
                 .map(it -> new Header(it.getName(), it.getValue()))
                 .collect(Collectors.toList());

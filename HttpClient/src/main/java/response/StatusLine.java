@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class StatusLine {
-    private final HttpVersion version;
+    private final ProtocolVersion version;
     private final HttpStatusCode statusCode;
 
     @Override

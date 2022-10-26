@@ -20,7 +20,7 @@ public class ResponseImpl implements Response {
     }
 
     @Override
-    public HttpVersion getVersion() {
+    public ProtocolVersion getVersion() {
         return statusLine.getVersion();
     }
 

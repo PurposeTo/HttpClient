@@ -2,7 +2,7 @@ package response;
 
 public interface Response {
 
-    HttpVersion getVersion();
+    ProtocolVersion getVersion();
 
     HttpStatusCode getStatusCode();
 

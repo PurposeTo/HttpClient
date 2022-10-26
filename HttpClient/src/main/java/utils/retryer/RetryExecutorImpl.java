@@ -29,6 +29,7 @@ public class RetryExecutorImpl implements RetryExecutor {
                 data = dataGetter.get();
                 isDataValid = condition.test(data);
             } catch (Throwable ignore) {
+                isDataValid = false;
             }
         }
 
