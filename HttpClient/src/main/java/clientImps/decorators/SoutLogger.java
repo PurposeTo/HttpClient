@@ -18,7 +18,7 @@ public final class SoutLogger extends AbstractHttpClient {
                 "Sending http request with %s:\n%s\n",
                 httpClient.getClass().getSimpleName(),
                 request.toString());
-        Response response = httpClient.send(request);
+        Response response = httpClient.send(request).get();
         System.out.printf("Response received:\n%s\n", response.toString());
         return response;
     }

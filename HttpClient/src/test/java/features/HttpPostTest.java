@@ -24,8 +24,7 @@ public class HttpPostTest extends AbstractHttpClientTest {
                 .setBody(new StringReqPayload(getUser()));
 
         var data = httpClient.send(request)
-//    todo            .retryUntil(Conditions.statusCode(201), Duration.ofSeconds(3), Duration.ofSeconds(10))
-                .shouldBe(Conditions.statusCode(201))
+                .retryUntil(Conditions.statusCode(201))
                 .map(asString())
                 .map(toJsonObject())
                 .get();

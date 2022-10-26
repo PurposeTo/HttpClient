@@ -4,8 +4,10 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import request.Request;
 import response.Response;
-import response.validator.ResponseHandler;
-import response.validator.ResponseHandlerImpl;
+import utils.conform.Conform;
+import utils.conform.ConformImpl;
+
+import java.util.function.Supplier;
 
 /**
  * Чтобы декораторы http клиента работали корректно, нужно наследоваться от этого класса,
@@ -18,12 +20,9 @@ public abstract class AbstractHttpClient implements HttpClient {
 
     @SneakyThrows
     @Override
-    public final ResponseHandler send(Request request) {
-        Response response = sendHttp(request);
-        return createResponseHandler(response);
-    }
-
-    private ResponseHandler createResponseHandler(@NonNull Response response) {
-        return new ResponseHandlerImpl(response);
+    public final Conform<Response> send(Request request) {
+        Supplier<Response> responseSupplier = () -> sendHttp(request);
+        Response response = responseSupplier.get();
+        return new ConformImpl<>(responseSupplier, response);
     }
 }
