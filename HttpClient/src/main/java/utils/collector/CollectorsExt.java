@@ -1,5 +1,6 @@
 package utils.collector;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -27,6 +28,19 @@ public class CollectorsExt {
                         throw new IllegalStateException(error);
                     }
                     return list.stream().findFirst();
+                }
+        );
+    }
+
+    public static Collector<Integer, ?, int[]> toPrimitiveInt() {
+        return Collectors.collectingAndThen(
+                Collectors.toList(),
+                list -> {
+                    if (list.stream().anyMatch(Objects::isNull)) {
+                        throw new IllegalStateException("Collection must not contains null");
+                    }
+
+                    return list.stream().mapToInt(it -> it).toArray();
                 }
         );
     }
